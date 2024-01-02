@@ -59,13 +59,13 @@ def total_extras(df_raw):
     total_dias_extras = [sum(result_df.iloc[:,-1])]
     df_total_dias_extras = pd.DataFrame({"total dias extras": total_dias_extras})
 
-    # Crear un objeto ExcelWriter para escribir en el archivo Excel
-    with pd.ExcelWriter(path_completo, engine='xlsxwriter') as writer:
-        # Guardar el primer DataFrame en la primera hoja (por defecto)
-        result_df.to_excel(writer, sheet_name='Hoja1', index=False)
+    # # Crear un objeto ExcelWriter para escribir en el archivo Excel
+    # with pd.ExcelWriter(path_completo, engine='xlsxwriter') as writer:
+    #     # Guardar el primer DataFrame en la primera hoja (por defecto)
+    #     result_df.to_excel(writer, sheet_name='Hoja1', index=False)
 
-        # Guardar el segundo DataFrame en otra hoja
-        df_total_dias_extras.to_excel(writer, sheet_name='Hoja2', index=False)
+    #     # Guardar el segundo DataFrame en otra hoja
+    #     df_total_dias_extras.to_excel(writer, sheet_name='Hoja2', index=False)
 
     print(f"Archivo guardado como {path_completo}")
 
