@@ -6,8 +6,26 @@ import pytz
 import os
 
 
-def total_extras(df_raw:pd.DataFrame):
-    df_raw = pd.read_excel("../data/raw/Propinas 01 al 15 de diciembre de 2023.xlsx", header=[1])
+def get_excel_file(file_path: str, header: list=None):
+    try:
+        #Intentar cargar el DataFrame desde el archivo Excel
+        if header is not None:
+            df_raw =pd.read_excel(file_path, header=None)
+            df_raw.columns = header
+        else:
+            df_raw = pd.read_excel(file_path, header=[1])
+        
+        return df_raw
+
+    except FileNotFoundError:
+        print(f"Error: No se puede encontrar el archivo {file_path}")
+    except Exception as e:
+        print(f"Error inesperado: {e}")
+
+
+
+def total_extras(df_raw):
+
     df_raw.drop(0, inplace=True)
     df_extras_raw = df_raw[df_raw['Puesto'].str.contains('EXTRA')]
     count_values_per_position = df_extras_raw['Puesto'].value_counts()
@@ -32,7 +50,9 @@ def total_extras(df_raw:pd.DataFrame):
 
     #Formateando fecha y agregando la hora
     fecha_formateada = fecha_actual_zapopan.strftime('%d%m%Y_%H%M')
-    directorio_destino = '../data/processed'
+
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    directorio_destino = os.path.join(current_directory, "..", "..", "data", "processed")
     nombre_archivo = f"personas_Con_horas_extras_{fecha_formateada}.xlsx"
     path_completo = os.path.join(directorio_destino, nombre_archivo)
 
@@ -49,4 +69,6 @@ def total_extras(df_raw:pd.DataFrame):
 
     print(f"Archivo guardado como {path_completo}")
 
-    return total_dias_extras
+    return result_df, total_dias_extras
+
+
