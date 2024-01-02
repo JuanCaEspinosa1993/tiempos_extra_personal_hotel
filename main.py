@@ -1,4 +1,3 @@
-# app.py
 import streamlit as st
 import pandas as pd
 import base64
@@ -7,6 +6,7 @@ from src.data.data_preprocessing import total_extras
 
 def get_table_downloand_link(result_df, total_dias_extras):
     """Enlace de descarga para un DataFrame en formato Excel."""
+
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         # Guardar el primer DataFrame en la primera hoja
@@ -24,13 +24,10 @@ def get_table_downloand_link(result_df, total_dias_extras):
     href = f'<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{b64}" download="resultados.xlsx">Descargar Resultados</a>'
     return href
 
-
-
 st.title("Procesamiento de Horas Extras")
-
-
 # Sección para cargar el archivo Excel
 uploaded_file = st.file_uploader("Cargar archivo Excel", type=["xlsx"])
+
 
 if uploaded_file is not None:
     #Mostrar el contenido del archivo Excel
